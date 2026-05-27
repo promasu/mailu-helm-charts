@@ -387,16 +387,16 @@ mariadb:
 
     ## @skip mariadb.primary.extraEnvVars
     ## Array with extra environment variables, used to create the initial Roundcube database; DO NOT EDIT; see `global.database` instead
-    extraEnvVars: |
+    extraEnvVars:
       - name: ROUNDCUBE_DB_PW
         valueFrom:
           secretKeyRef:
-            name: {{ include "mailu.database.roundcube.secretName" . }}
-            key: {{ include "mailu.database.roundcube.secretKey" . }}
+            name: '{{ include "mailu.database.roundcube.secretName" . }}'
+            key: '{{ include "mailu.database.roundcube.secretKey" . }}'
       - name: ROUNDCUBE_DB_NAME
-        value: {{ include "mailu.database.roundcube.name" . }}
+        value: '{{ include "mailu.database.roundcube.name" . }}'
       - name: ROUNDCUBE_DB_USER
-        value: {{ include "mailu.database.roundcube.username" . }}
+        value: '{{ include "mailu.database.roundcube.username" . }}'
 
   ## @skip mariadb.initdbScripts.create_roundcube_database.sh
   ## DO NOT EDIT Script to create the Roundcube database
@@ -482,16 +482,16 @@ postgresql:
   primary:
     ## @skip postgresql.primary.extraEnvVars
     ## Array with extra environment variables, used to create the initial Roundcube database; DO NOT EDIT; see `global.database` instead
-    extraEnvVars: |
+    extraEnvVars:
       - name: ROUNDCUBE_DB_PW
         valueFrom:
           secretKeyRef:
-            name: {{ include "mailu.database.roundcube.secretName" . }}
-            key: {{ include "mailu.database.roundcube.secretKey" . }}
+            name: '{{ include "mailu.database.roundcube.secretName" . }}'
+            key: '{{ include "mailu.database.roundcube.secretKey" . }}'
       - name: ROUNDCUBE_DB_NAME
-        value: {{ include "mailu.database.roundcube.name" . }}
+        value: '{{ include "mailu.database.roundcube.name" . }}'
       - name: ROUNDCUBE_DB_USER
-        value: {{ include "mailu.database.roundcube.username" . }}
+        value: '{{ include "mailu.database.roundcube.username" . }}'
 
     initdb:
       ## @skip postgresql.primary.initdb.scripts.create_roundcube_database.sh
@@ -720,6 +720,7 @@ front:
   ## @param front.externalService.type Service type (ClusterIP or LoadBalancer)
   ## @param front.externalService.externalTrafficPolicy Service externalTrafficPolicy (Cluster or Local)
   ## @param front.externalService.externalIPs Service externalIPs
+  ## @param front.externalService.ipFamilyPolicy Service ipFamilyPolicy, for dual stack clusters.
   ## @param front.externalService.loadBalancerIP Service loadBalancerIP
   ## @param front.externalService.annotations Service annotations
   ## @param front.externalService.labels Service labels
@@ -747,6 +748,7 @@ front:
     loadBalancerIP: ""
     externalTrafficPolicy: Local
     externalIPs: []
+    ipFamilyPolicy: ""
     annotations: {}
     labels: {}
     ports:
@@ -945,6 +947,16 @@ front:
 
   ## @param front.extraContainers Add additional containers to the pod
   extraContainers: []
+
+  ## @param front.overrides Enable front overrides
+  ## Example:
+  ## overrides:
+  ##   mta-sts.conf: |
+  ##      # More info here: https://mailu.io/master/faq.html#how-do-i-setup-a-mta-sts-policy
+  ##      location ^~ /.well-known/mta-sts.txt {
+  ##        return 200 "version: STSv1\nmode: enforce\nmax_age: 1296000\nmx: mailu.example.com\n";
+  ##      }
+  overrides: {}
 
 ## @section Admin parameters
 admin:
@@ -2010,7 +2022,7 @@ clamav:
   ## @param clamav.image.registry Pod image registry (specific for ClamAV as it is not part of the Mailu organization)
   image:
     repository: clamav/clamav-debian
-    tag: 1.4@sha256:9a761d591ece47ecbc0927480aa39fafc23c827fe578b61e5123c27e0eafd34d
+    tag: 1.4@sha256:c5bbda3191b7265ce4c92e7d2ae4d8fa58f14c0fd6598731aff4beb33f474902
     pullPolicy: IfNotPresent
     registry: docker.io
 
@@ -3055,7 +3067,7 @@ tika:
   ## @param tika.image.registry Pod image registry (specific for Tika as it is not part of the Mailu organization)
   image:
     repository: apache/tika
-    tag: 3.2.3.0-full@sha256:21d8052de04e491ccf66e8680ade4da6f3d453a56d59f740b4167e54167219b7
+    tag: 3.3.1.0-full@sha256:d8e6ed96260ad89307a93195a1b856102987a818ac648502f8efbaf313d32470
     pullPolicy: IfNotPresent
     registry: docker.io
 

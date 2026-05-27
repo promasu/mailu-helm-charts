@@ -77,22 +77,22 @@
 
 {{/* Return the name of the secret for the external database */}}
 {{- define "mailu.database.external.secretName" -}}
-{{ include "common.secrets.name" (dict "existingSecret" .Values.externalDatabase.existingSecret "defaultNameSuffix" "externaldb" "context" .) }}
+{{ include "mailu.secrets.name" (dict "existingSecret" .Values.externalDatabase.existingSecret "defaultNameSuffix" "externaldb" "context" .) }}
 {{- end -}}
 
 {{/* Return the name of the external database */}}
 {{- define "mailu.database.external.database" -}}
-{{ (include "common.secrets.lookup" (dict "secret" (include "mailu.database.external.secretName" .) "key" .Values.externalDatabase.existingSecretDatabaseKey "defaultValue" .Values.externalDatabase.database "context" .))  | toString | b64dec }}
+{{ (include "mailu.secrets.lookup" (dict "secret" (include "mailu.database.external.secretName" .) "key" .Values.externalDatabase.existingSecretDatabaseKey "defaultValue" .Values.externalDatabase.database "context" .))  | toString | b64dec }}
 {{- end -}}
 
 {{/* Return the username of the external database */}}
 {{- define "mailu.database.external.username" -}}
-{{ (include "common.secrets.lookup" (dict "secret" (include "mailu.database.external.secretName" .) "key" .Values.externalDatabase.existingSecretUsernameKey "defaultValue" .Values.externalDatabase.username "context" .))  | toString | b64dec }}
+{{ (include "mailu.secrets.lookup" (dict "secret" (include "mailu.database.external.secretName" .) "key" .Values.externalDatabase.existingSecretUsernameKey "defaultValue" .Values.externalDatabase.username "context" .))  | toString | b64dec }}
 {{- end -}}
 
 {{/* Return the password of the external database */}}
 {{- define "mailu.database.external.password" -}}
-{{ (include "common.secrets.lookup" (dict "secret" (include "mailu.database.external.secretName" .) "key" .Values.externalDatabase.existingSecretPasswordKey "defaultValue" .Values.externalDatabase.password "context" .))  | toString | b64dec }}
+{{ (include "mailu.secrets.lookup" (dict "secret" (include "mailu.database.external.secretName" .) "key" .Values.externalDatabase.existingSecretPasswordKey "defaultValue" .Values.externalDatabase.password "context" .))  | toString | b64dec }}
 {{- end -}}
 
 {{/* Return the name of the mailu database secret with its credentials */}}
@@ -125,17 +125,17 @@
 
 {{/* Return the database name for Roundcube */}}
 {{- define "mailu.database.roundcube.name" -}}
-{{- .Values.global.database.roundcube.database | quote }}
+{{- .Values.global.database.roundcube.database }}
 {{- end -}}
 
 {{/* Return the database username for Roundcube */}}
 {{- define "mailu.database.roundcube.username" -}}
-{{- .Values.global.database.roundcube.username | quote }}
+{{- .Values.global.database.roundcube.username }}
 {{- end -}}
 
 {{/* Return the database password for Roundcube */}}
 {{- define "mailu.database.roundcube.password" -}}
-{{- include "common.secrets.passwords.manage" (dict "secret" (include "mailu.database.roundcube.secretName" .) "key" (include "mailu.database.roundcube.secretKey" .) "providedValues" (list "global.database.roundcube.password" "database.mysql.roundcubePassword" "database.postgresql.roundcubePassword") "length" 10 "strong" true "context" .) }}
+{{- include "mailu.secrets.passwords.manage" (dict "secret" (include "mailu.database.roundcube.secretName" .) "key" (include "mailu.database.roundcube.secretKey" .) "providedValues" (list "global.database.roundcube.password" "database.mysql.roundcubePassword" "database.postgresql.roundcubePassword") "length" 10 "strong" true "context" .) }}
 {{- end -}}
 
 {{/* Return the name of the roundcube database secret */}}

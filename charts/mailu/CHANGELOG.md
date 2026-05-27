@@ -1,5 +1,62 @@
 # Changelog
 
+## [2.7.1](https://github.com/Mailu/helm-charts/compare/mailu-2.7.0...mailu-2.7.1) (2026-05-12)
+
+
+### Bug Fixes
+
+* **github-release:** update release mailu/mailu ( 2024.06.49 ➔ 2024.06.50 ) ([#565](https://github.com/Mailu/helm-charts/issues/565)) ([df52add](https://github.com/Mailu/helm-charts/commit/df52add4fdf50ecda48b2282943d34aa0bd6116d))
+* **github-release:** update release mailu/mailu ( 2024.06.50 ➔ 2024.06.51 ) ([#568](https://github.com/Mailu/helm-charts/issues/568)) ([d4c28e9](https://github.com/Mailu/helm-charts/commit/d4c28e943ce9d603bc4e7b8de3ce452f2496e9f3))
+
+## [2.7.0](https://github.com/Mailu/helm-charts/compare/mailu-2.6.3...mailu-2.7.0) (2026-03-21)
+
+
+### Features
+
+* allow defining ipFamilyPolicy for external service ([#362](https://github.com/Mailu/helm-charts/issues/362)) ([924cc54](https://github.com/Mailu/helm-charts/commit/924cc540f0a6ae3c1ecc72329395fc10bd5b79ca))
+
+
+### Bug Fixes
+
+* **github-release:** update release mailu/mailu ( 2024.06.46 ➔ 2024.06.47 ) ([#547](https://github.com/Mailu/helm-charts/issues/547)) ([a7fbe40](https://github.com/Mailu/helm-charts/commit/a7fbe40894177ed22f686ae74f8897cfd5b2980b))
+* **github-release:** update release mailu/mailu ( 2024.06.47 ➔ 2024.06.48 ) ([#553](https://github.com/Mailu/helm-charts/issues/553)) ([3047a10](https://github.com/Mailu/helm-charts/commit/3047a10efcd7039249ee21a98550ccc41570d29d))
+* **github-release:** update release mailu/mailu ( 2024.06.48 ➔ 2024.06.49 ) ([#555](https://github.com/Mailu/helm-charts/issues/555)) ([9ba8ece](https://github.com/Mailu/helm-charts/commit/9ba8ece0b9d1b60df7b2308c1b9c44d3855cc8b5))
+
+## [2.6.3](https://github.com/Mailu/helm-charts/compare/mailu-2.6.2...mailu-2.6.3) (2025-12-16)
+
+
+### Bug Fixes
+
+* **github-release:** update release mailu/mailu ( 2024.06.45 ➔ 2024.06.46 ) ([#534](https://github.com/Mailu/helm-charts/issues/534)) ([353a7c7](https://github.com/Mailu/helm-charts/commit/353a7c72ebba6a76ae145924259e51638af32db3))
+
+## [2.6.2](https://github.com/Mailu/helm-charts/compare/mailu-2.6.1...mailu-2.6.2) (2025-12-05)
+
+
+### Bug Fixes
+
+* clamav volumeClaimTemplates use matchLabels ([#522](https://github.com/Mailu/helm-charts/issues/522)) ([fa88206](https://github.com/Mailu/helm-charts/commit/fa88206e531d7e5e4e937f26809a0ccf1480bae2))
+
+## [2.6.1](https://github.com/Mailu/helm-charts/compare/mailu-2.6.0...mailu-2.6.1) (2025-11-06)
+
+
+### Bug Fixes
+
+* ensure PORTS value is quoted ([#515](https://github.com/Mailu/helm-charts/issues/515)) ([2d3ce2d](https://github.com/Mailu/helm-charts/commit/2d3ce2d82455bcaaa57dc81c2259a21ec2869a42))
+
+## [2.6.0](https://github.com/Mailu/helm-charts/compare/mailu-2.5.1...mailu-2.6.0) (2025-11-05)
+
+
+### Features
+
+* support mta-sts configuration with overrides ([#396](https://github.com/Mailu/helm-charts/issues/396)) ([051c3b2](https://github.com/Mailu/helm-charts/commit/051c3b21208658915469e276cf6941a147b3a59d))
+
+
+### Bug Fixes
+
+* Allow set externalIPs ([#499](https://github.com/Mailu/helm-charts/issues/499)) ([b30a1a3](https://github.com/Mailu/helm-charts/commit/b30a1a32c43aea7618c471fe3154e28e13026dcd))
+* prevent overzealous whitespace removal ([#509](https://github.com/Mailu/helm-charts/issues/509)) ([5a65b6b](https://github.com/Mailu/helm-charts/commit/5a65b6b2609d3beb3625fd2556f94fc5429ffede)), closes [#508](https://github.com/Mailu/helm-charts/issues/508)
+* type of db ExtraEnvVars values ([#466](https://github.com/Mailu/helm-charts/issues/466)) ([64a068d](https://github.com/Mailu/helm-charts/commit/64a068d5171d69d02d4587fd948cd4d2abca0af9))
+
 ## [2.5.1](https://github.com/Mailu/helm-charts/compare/mailu-2.5.0...mailu-2.5.1) (2025-10-22)
 
 

@@ -329,6 +329,7 @@ helm uninstall mailu --namespace=mailu-mailserver
 | `front.externalService.type`                  | Service type (ClusterIP or LoadBalancer)                                              | `ClusterIP`     |
 | `front.externalService.externalTrafficPolicy` | Service externalTrafficPolicy (Cluster or Local)                                      | `Local`         |
 | `front.externalService.externalIPs`           | Service externalIPs                                                                   | `[]`            |
+| `front.externalService.ipFamilyPolicy`        | Service ipFamilyPolicy, for dual stack clusters.                                      | `""`            |
 | `front.externalService.loadBalancerIP`        | Service loadBalancerIP                                                                | `""`            |
 | `front.externalService.annotations`           | Service annotations                                                                   | `{}`            |
 | `front.externalService.labels`                | Service labels                                                                        | `{}`            |
@@ -395,6 +396,7 @@ helm uninstall mailu --namespace=mailu-mailserver
 | `front.extraVolumeMounts`                     | Optionally specify extra list of additional volumeMounts for the pod                  | `[]`            |
 | `front.extraVolumes`                          | Optionally specify extra list of additional volumes for the pod(s)                    | `[]`            |
 | `front.extraContainers`                       | Add additional containers to the pod                                                  | `[]`            |
+| `front.overrides`                             | Enable front overrides                                                                | `{}`            |
 
 ### Admin parameters
 
@@ -689,7 +691,7 @@ helm uninstall mailu --namespace=mailu-mailserver
 | `clamav.enabled`                               | Enable ClamAV                                                                         | `true`                                                                        |
 | `clamav.logLevel`                              | Override default log level                                                            | `""`                                                                          |
 | `clamav.image.repository`                      | Pod image repository                                                                  | `clamav/clamav-debian`                                                        |
-| `clamav.image.tag`                             | Pod image tag (defaults to `mailuVersion` if set, otherwise `Chart.AppVersion`)       | `1.4@sha256:9a761d591ece47ecbc0927480aa39fafc23c827fe578b61e5123c27e0eafd34d` |
+| `clamav.image.tag`                             | Pod image tag (defaults to `mailuVersion` if set, otherwise `Chart.AppVersion`)       | `1.4@sha256:c5bbda3191b7265ce4c92e7d2ae4d8fa58f14c0fd6598731aff4beb33f474902` |
 | `clamav.image.pullPolicy`                      | Pod image pull policy                                                                 | `IfNotPresent`                                                                |
 | `clamav.image.registry`                        | Pod image registry (specific for ClamAV as it is not part of the Mailu organization)  | `docker.io`                                                                   |
 | `clamav.persistence.enabled`                   | Enable persistence using PVC                                                          | `true`                                                                        |
@@ -1193,6 +1195,41 @@ If you run on bare metal with k3s (e.g by using k3os), you can use the built-in 
 The [externalTrafficPolicy](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip) is important to preserve the client's source IP and avoid an open relay.
 
 Please perform open relay tests after setup as described above!
+
+### With HTTPRoute instead of ingress
+- `ingress.enabled`: `false`
+- `ingress.existingSecret`: `m̀ail-mydomain-tld-tls` - this needs to be mapped into your current namespace either by the Gateway or a reflector controller. See https://github.com/Mailu/helm-charts/issues/543`
+- `ingress.tlsFlavorOverride`: `mail`
+
+`tlsFlavorOverride` `mail` configures `mailu-front` to use SSL for dovecot and nginx, offloading TLS for HTTPS to the Gateway API controller.
+A corresponding Gateway was implemented like:
+
+``` yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: eg-shared
+  namespace: gateway-infra
+spec:
+  gatewayClassName: eg-shared
+  listeners:
+    - name: https-mailu
+      port: 443
+      protocol: HTTPS
+      hostname: mail.mydomain.tld
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: mail-mydomain-tld-tls
+            namespace: mailu
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: mailu
+```
 
 ## Environment variables mapping
 
